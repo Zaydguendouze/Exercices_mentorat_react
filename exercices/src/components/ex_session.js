@@ -61,6 +61,8 @@ export default function App() {
       console.log("newLocalImages.indexOf()", newLocalImages.indexOf());
       // console.log("autocompleteList", autocompleteList);
 
+      // ajout de l'image
+      setImages([...images, inputText]);
       setAutocompleteList(
         images.filter((img) => !newLocalImages.includes(img))
       );
