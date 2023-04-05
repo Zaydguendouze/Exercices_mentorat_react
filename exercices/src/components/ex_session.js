@@ -56,16 +56,23 @@ export default function App() {
   const handleClick = (e) => {
     // differentes manieres de set un state
     setLImages((prev) => {
-      const newLocalImages = [...prev, inputText];
+      const newLocalImages = [lImages, inputText];
       console.log("newLocalImages", newLocalImages);
-      console.log("newLocalImages.indexOf()", newLocalImages.indexOf());
       // console.log("autocompleteList", autocompleteList);
-
-      // ajout de l'image
-      setImages([...images, inputText]);
-      setAutocompleteList(
-        images.filter((img) => !newLocalImages.includes(img))
-      );
+      for (let i = 0; i < images.length; i++) {
+        // if (inputText === "") {
+        //   alert("Veuillez ajouter une image existante");
+        // } else
+        // if (inputText.toLowerCase() === images[i]) {
+        // ajout de l'image
+        setImages([...images, inputText]);
+        console.log("inputText", inputText);
+        setAutocompleteList(
+          images.filter((img) => !newLocalImages.includes(img))
+        );
+        // newLocalImages.push(images[i]);
+        // }
+      }
       return newLocalImages;
     }); // react te donne pas 100% chance de mettre à jour le state avant la prochaine ligne "BATCHING"
   };
@@ -118,21 +125,38 @@ export default function App() {
       <div className="flex items-center justify-between">
         <ImagesComponent />
       </div>
-      <img className="w-40 mx-auto"></img>
 
       {/* <div>{name}</div> */}
-      {lImages.map((img) => img)}
+      {/* {lImages.map((img) => img)} */}
 
-      <input ref={inputToFocus} onChange={handleInputChange} />
-      <button onClick={handleClick}>ajouter image</button>
+      <input
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        ref={inputToFocus}
+        onChange={handleInputChange}
+      />
 
-      {isAutocomplete && (
-        <ul>
-          {autocompleteList.map((element, idx) => (
-            <li key={idx}>{element}</li>
-          ))}
-        </ul>
-      )}
+      <div className="flex items-center justify-between">
+        <div className="">
+          {isAutocomplete && (
+            <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+              {autocompleteList.map((element, idx) => (
+                <li className="flex items-center" key={idx}>
+                  {element}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <button
+          className="bg-blue-500 m-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleClick}
+        >
+          ajouter image
+        </button>
+      </div>
     </div>
   );
 }
