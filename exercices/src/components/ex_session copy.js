@@ -2,25 +2,25 @@ import "../exercice.css";
 import { useState, useEffect, useRef } from "react";
 import Picture from "./Picture";
 
-const images = [
-  "img1.jpg ",
-  "img2.jpg ",
-  "img3.jpg ",
-  "img4.jpg ",
-  "img5.jpg ",
-];
+// const images = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg"];
 
 export default function App() {
+  const [images, setImages] = useState([
+    "img1.jpg ",
+    "img2.jpg ",
+    "img3.jpg ",
+    "img4.jpg ",
+  ]);
   const [isAutocomplete, setIsAutocomplete] = useState(false);
   const [inputText, setInputText] = useState("");
 
-  const [lImages, setLImages] = useState(["img1.jpg"]);
+  const [lImages, setLImages] = useState(["img1.jpg "]);
   const [autocompleteList, setAutocompleteList] = useState(
     images.filter((img) => !lImages.includes(img))
   );
 
   function ImagesComponent() {
-    return lImages.map((name, index) => (
+    return images.map((name, index) => (
       <Picture
         imageName={name}
         index={index}
@@ -57,45 +57,39 @@ export default function App() {
     // if (inputText.trim() !== "" && images.includes(inputText.trim())) {
     // differentes manieres de set un state
     // Vérifier si l'input n'est pas vide
-    setLImages(
-      (prev) => {
-        const inputTextTrimed = inputText.trim().toLowerCase();
-        const newLocalImages = [...lImages, inputTextTrimed];
-        const isInputTextIncluded = images
-          .map((img) => img.trim().toLowerCase())
-          .includes(inputTextTrimed);
-        console.log("newLocalImages", newLocalImages);
-        if (isInputTextIncluded) return newLocalImages;
+    setLImages((prev) => {
+      const newLocalImages = [lImages, inputText];
+      console.log("newLocalImages", newLocalImages);
+      if (inputText.trim() === "") {
+        alert("Veuillez ajouter une image existante");
         return prev;
-        // for (let i = 0; i < images.length; i++) {
-        //   const image = images[i].trim().toLowerCase();
-        //   console.log("search", image, inputTextTrimed);
-        //   if (inputTextTrimed === "") {
-        //     returnPrev = true;
-        //   } else if (image !== inputTextTrimed) {
-        //     console.log("images[i]", images);
-        //     console.log("inputText", inputText);
-        //     alert("Veuillez choisir une image existante");
-        //     returnPrev = true;
-        //   } else {
-        //     console.log("inputText", inputText);
-        //     setAutocompleteList(
-        //       images.filter((img) => !newLocalImages.includes(img))
-        //     );
-        //   }
-        // }
       }
-
-      // setImages([...images, inputText.trim()]);
-      // console.log("inputText", inputText);
-      // setAutocompleteList(
-      //   images.filter((img) => !newLocalImages.includes(img))
-      // );
-      // return newLocalImages;
-    );
+      images.forEach((image) => {
+        if (image.toLowerCase() !== inputText.toLowerCase()) {
+          console.log("image", image);
+          console.log("inputText", inputText);
+          alert("Veuillez ajouter une image existante");
+          return;
+        }
+      });
+      // for (let i = 0; i < images.length; i++) {
+      //   const image = images[i];
+      //   if (image.toLowerCase() !== inputText.toLowerCase()) {
+      //     console.log("images[i]", image);
+      //     console.log("inputText", inputText);
+      //     alert("Veuillez ajouter une image existante");
+      //     return prev;
+      //   }
+      // }
+      setImages([...images, inputText.trim()]);
+      console.log("inputText", inputText);
+      setAutocompleteList(
+        images.filter((img) => !newLocalImages.includes(img))
+      );
+      return newLocalImages;
+    });
+    // } // react te donne pas 100% chance de mettre à jour le state avant la prochaine ligne "BATCHING"
   };
-  // } // react te donne pas 100% chance de mettre à jour le state avant la prochaine ligne "BATCHING"
-  // }
 
   // const handleClick = (e) => {
   //   // differentes manieres de set un state
@@ -133,6 +127,13 @@ export default function App() {
     } else setIsAutocomplete(false);
   }, [inputText]);
 
+  const inputToFocus = useRef(null);
+
+  useEffect(() => {
+    inputToFocus.current.focus();
+    // console.log(inputToFocus);
+  });
+
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-between">
@@ -146,6 +147,7 @@ export default function App() {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
         dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        ref={inputToFocus}
         onChange={handleInputChange}
       />
 
