@@ -54,78 +54,17 @@ export default function App() {
   };
 
   const handleClick = (e) => {
-    // if (inputText.trim() !== "" && images.includes(inputText.trim())) {
-    // differentes manieres de set un state
-    // Vérifier si l'input n'est pas vide
-    setLImages(
-      (prev) => {
-        const inputTextTrimed = inputText.trim().toLowerCase();
-        const newLocalImages = [...lImages, inputTextTrimed];
-        const isInputTextIncluded = images
-          .map((img) => img.trim().toLowerCase())
-          .includes(inputTextTrimed);
-        console.log("newLocalImages", newLocalImages);
-        if (isInputTextIncluded) return newLocalImages;
-        return prev;
-        // for (let i = 0; i < images.length; i++) {
-        //   const image = images[i].trim().toLowerCase();
-        //   console.log("search", image, inputTextTrimed);
-        //   if (inputTextTrimed === "") {
-        //     returnPrev = true;
-        //   } else if (image !== inputTextTrimed) {
-        //     console.log("images[i]", images);
-        //     console.log("inputText", inputText);
-        //     alert("Veuillez choisir une image existante");
-        //     returnPrev = true;
-        //   } else {
-        //     console.log("inputText", inputText);
-        //     setAutocompleteList(
-        //       images.filter((img) => !newLocalImages.includes(img))
-        //     );
-        //   }
-        // }
-      }
-
-      // setImages([...images, inputText.trim()]);
-      // console.log("inputText", inputText);
-      // setAutocompleteList(
-      //   images.filter((img) => !newLocalImages.includes(img))
-      // );
-      // return newLocalImages;
-    );
+    setLImages((prev) => {
+      const inputTextTrimed = inputText.trim().toLowerCase();
+      const newLocalImages = [...lImages, inputTextTrimed];
+      const isInputTextIncluded = images
+        .map((img) => img.trim().toLowerCase())
+        .includes(inputTextTrimed);
+      console.log("newLocalImages", newLocalImages);
+      if (isInputTextIncluded) return newLocalImages;
+      return prev;
+    });
   };
-  // } // react te donne pas 100% chance de mettre à jour le state avant la prochaine ligne "BATCHING"
-  // }
-
-  // const handleClick = (e) => {
-  //   // differentes manieres de set un state
-  //   setLImages((prev) => {
-  //     const newLocalImages = [...prev, inputText];
-  //     console.log("newLocalImages", newLocalImages);
-  //     console.log("images", images);
-  //     // console.log("autocompleteList", autocompleteList);
-  //     for (let i = 0; i < newLocalImages.length; i++) {
-  //       for (let j = 0; j < images.length; j++) {
-  //         if (
-  //           newLocalImages[i].trim().toLowerCase() ===
-  //           images[j].trim().toLowerCase()
-  //         ) {
-  //           console.log("OK");
-  //         } else {
-  //           alert("Veuillez ajouter une image existante");
-  //           console.log("NOTOK");
-  //           break;
-  //         }
-  //         console.log("newLocalImages[i]", newLocalImages[i].toLowerCase());
-  //         console.log("images[j]", images[j].toLowerCase());
-  //       }
-  //     }
-  //     setAutocompleteList(
-  //       images.filter((img) => !newLocalImages.includes(img))
-  //     );
-  //     return newLocalImages;
-  //   }); // react te donne pas 100% chance de mettre à jour le state avant la prochaine ligne "BATCHING"
-  // };
 
   useEffect(() => {
     if (inputText.length > 0) {
@@ -138,9 +77,6 @@ export default function App() {
       <div className="flex items-center justify-between">
         <ImagesComponent />
       </div>
-
-      {/* <div>{name}</div> */}
-      {/* {lImages.map((img) => img)} */}
 
       <input
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 

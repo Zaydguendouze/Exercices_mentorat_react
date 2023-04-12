@@ -1,5 +1,4 @@
 import React from "react";
-// import images from "./ex_session";
 
 export default function Picture({ imageName, index }) {
   return (
